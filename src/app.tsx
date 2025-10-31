@@ -204,7 +204,7 @@ export function App() {
             </h1>
             <Avatar avatar={avatar} name={profile.name} />
             <p class="text-gray-600 text-lg mt-4">
-              Yay! You've successfully setup your profile!<br /><br />Look for antlers on QR codes to access sites instantly - no login required!
+              Yay! You've successfully setup your profile!<br /><br />Look for other QR codes with antlers for websites that allow instant login!
             </p>
           </div>
         </div>

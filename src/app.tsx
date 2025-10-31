@@ -51,9 +51,6 @@ export function App() {
   const [error, setError] = useState<string | null>(null)
 
   useEffect(() => {
-    // set up message listener
-    window.addEventListener('message', handleMessage)
-
     // Check if running in an IRL Browser
     setIsIRLBrowser(!!window.irlBrowser)
 
@@ -108,34 +105,6 @@ export function App() {
     }
   }
 
-  const handleMessage = async (event: MessageEvent) => {
-    try {
-      if (!event.data?.jwt) {
-        return
-      }
-
-      // Verify JWT and extract payload
-      const payload = await decodeAndVerifyJWT(event.data.jwt)
-
-      // Process message based on type
-      switch (payload.type) {
-        case 'irl:profile:disconnected':
-          // const profileData = payload.data as UserProfile
-          setProfile(null)
-          break
-
-        case 'irl:error':
-          const errorData = payload.data as { code: string; message: string }
-          setError(errorData.message || 'An error occurred')
-          break
-
-        default:
-      }
-    } catch (err) {
-      setError(err instanceof Error ? err.message : 'Failed to process message')
-    }
-  }
-
   // Show fallback message if not in IRL Browser
   if (!isIRLBrowser) {
     return (
@@ -144,7 +113,6 @@ export function App() {
           <QRCodePanel />
           <div class="flex items-center justify-center px-4 py-12">
             <div class="text-center max-w-2xl">
-              {/* Phone Mockup */}
               <div class="flex justify-center mb-8">
                 <div class="max-w-[150px] md:max-w-[200px]">
                   <img
@@ -235,6 +203,9 @@ export function App() {
               Hey, {profile.name}!
             </h1>
             <Avatar avatar={avatar} name={profile.name} />
+            <p class="text-gray-600 text-lg mt-4">
+              Yay! You've successfully setup your profile!<br /><br />Look for antlers on QR codes to access sites instantly - no login required!
+            </p>
           </div>
         </div>
       </div>

@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'preact/hooks'
+import { useState, useEffect } from 'react'
 import { decodeAndVerifyJWT } from './utils/jwt'
 import { QRCodePanel } from './components/QRCodePanel'
 import { Avatar } from './components/Avatar'
@@ -108,50 +108,50 @@ export function App() {
   // Show fallback message if not in IRL Browser
   if (!isIRLBrowser) {
     return (
-      <div class="min-h-screen bg-white">
-        <div class="grid md:grid-cols-2 min-h-screen">
+      <div className="min-h-screen bg-white">
+        <div className="grid md:grid-cols-2 min-h-screen">
           <QRCodePanel />
-          <div class="flex items-center justify-center px-4 py-12">
-            <div class="text-center max-w-2xl">
-              <div class="flex justify-center mb-8">
-                <div class="max-w-[150px] md:max-w-[200px]">
+          <div className="flex items-center justify-center px-4 py-12">
+            <div className="text-center max-w-2xl">
+              <div className="flex justify-center mb-8">
+                <div className="max-w-[150px] md:max-w-[200px]">
                   <img
                     src="https://ax0.taddy.org/antler/antler-icon.webp"
                     alt="Antler"
-                    class="w-full h-auto rounded-3xl shadow-lg"
+                    className="w-full h-auto rounded-3xl shadow-lg"
                   />
                 </div>
               </div>
 
               {/* Hero Title */}
-              <h2 class="text-3xl md:text-4xl font-bold text-[#403B51] mb-8 leading-tight">
+              <h2 className="text-3xl md:text-4xl font-bold text-[#403B51] mb-8 leading-tight">
                 Scan with Antler!
               </h2>
 
               {/* Download Buttons */}
-              <div class="flex flex-wrap justify-center gap-4 mt-8">
+              <div className="flex flex-wrap justify-center gap-4 mt-8">
                 <a
                   href="https://apps.apple.com/app/id6753969350"
                   target="_blank"
                   rel="noopener noreferrer"
-                  class="inline-block transition-transform hover:-translate-y-1 active:scale-95"
+                  className="inline-block transition-transform hover:-translate-y-1 active:scale-95"
                 >
                   <img
                     src="https://ax0.taddy.org/general/apple-app-store-badge.png"
                     alt="Download on the App Store"
-                    class="h-12 md:h-14 w-auto"
+                    className="h-12 md:h-14 w-auto"
                   />
                 </a>
                 <a
                   href="https://play.google.com/store/apps/details?id=com.antlerbrowser"
                   target="_blank"
                   rel="noopener noreferrer"
-                  class="inline-block transition-transform hover:-translate-y-1 active:scale-95"
+                  className="inline-block transition-transform hover:-translate-y-1 active:scale-95"
                 >
                   <img
                     src="https://ax0.taddy.org/general/google-play-badge.png"
                     alt="Download on Google Play"
-                    class="h-12 md:h-14 w-auto"
+                    className="h-12 md:h-14 w-auto"
                   />
                 </a>
               </div>
@@ -165,14 +165,14 @@ export function App() {
   // Show error state
   if (error) {
     return (
-      <div class="min-h-screen bg-gradient-to-br from-red-50 to-orange-50">
-        <div class="grid md:grid-cols-2 min-h-screen">
+      <div className="min-h-screen bg-gradient-to-br from-red-50 to-orange-50">
+        <div className="grid md:grid-cols-2 min-h-screen">
           <QRCodePanel />
-          <div class="flex items-center justify-center px-4">
-            <div class="text-center max-w-md">
-              <div class="text-6xl mb-6">⚠️</div>
-              <h1 class="text-3xl font-bold mb-4 text-gray-800">Error</h1>
-              <p class="text-gray-600">{error}</p>
+          <div className="flex items-center justify-center px-4">
+            <div className="text-center max-w-md">
+              <div className="text-6xl mb-6">⚠️</div>
+              <h1 className="text-3xl font-bold mb-4 text-gray-800">Error</h1>
+              <p className="text-gray-600">{error}</p>
             </div>
           </div>
         </div>
@@ -183,10 +183,10 @@ export function App() {
   // Show loading state while waiting for profile
   if (!profile) {
     return (
-      <div class="min-h-screen bg-gradient-to-br from-purple-50 to-blue-50">
-        <div class="grid md:grid-cols-2 min-h-screen">
+      <div className="min-h-screen bg-gradient-to-br from-purple-50 to-blue-50">
+        <div className="grid md:grid-cols-2 min-h-screen">
           <QRCodePanel />
-          <div class="flex items-center justify-center px-4"></div>
+          <div className="flex items-center justify-center px-4"></div>
         </div>
       </div>
     )
@@ -194,16 +194,16 @@ export function App() {
 
   // Show profile
   return (
-    <div class="min-h-screen bg-gradient-to-br from-purple-50 to-blue-50">
-      <div class="grid md:grid-cols-2 min-h-screen">
+    <div className="min-h-screen bg-gradient-to-br from-purple-50 to-blue-50">
+      <div className="grid md:grid-cols-2 min-h-screen">
         <QRCodePanel />
-        <div class="flex items-center justify-center px-4">
-          <div class="text-center">
-            <h1 class="text-4xl font-bold mb-6 text-gray-800">
+        <div className="flex items-center justify-center px-4">
+          <div className="text-center">
+            <h1 className="text-4xl font-bold mb-6 text-gray-800">
               Hey, {profile.name}!
             </h1>
             <Avatar avatar={avatar} name={profile.name} />
-            <p class="text-gray-600 text-lg mt-4">
+            <p className="text-gray-600 text-lg mt-4">
               Yay! You've successfully setup your profile!<br /><br />Look for other QR codes with antlers for websites that allow instant login!
             </p>
           </div>

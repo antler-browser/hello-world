@@ -1,16 +1,7 @@
 import { useState, useEffect } from 'react'
-import { decodeAndVerifyJWT } from './utils/jwt'
+import { decodeAndVerifyJWT } from './lib/jwt'
 import { QRCodePanel } from './components/QRCodePanel'
 import { Avatar } from './components/Avatar'
-
-// Initialize Eruda mobile debugger in development mode
-if (import.meta.env.DEV) {
-  import('eruda').then((eruda) => {
-    eruda.default.init()
-    eruda.default.position({ x: 20, y: 20 })
-    console.log('🔧 Eruda debugger initialized - tap the floating button to open DevTools')
-  })
-}
 
 // TypeScript declarations for IRL Browser API
 declare global {
@@ -59,6 +50,14 @@ export function App() {
 
     // Load avatar
     loadAvatar()
+
+    // Add event listener to receive events from IRL Browser
+    window.addEventListener('message', handleMessage)
+
+    // Cleanup on unmount
+    return () => {
+      window.removeEventListener('message', handleMessage)
+    }
   }, [])
 
   const loadProfile = async () => {
@@ -102,6 +101,29 @@ export function App() {
     } catch (err) {
       console.error('Error loading avatar:', err)
       // Don't set error state for avatar failures, just log them
+    }
+  }
+
+  const handleMessage = async (event: MessageEvent) => {
+    try {
+      // Check if this is an IRL Browser message with a JWT
+      if (!event.data?.jwt) {
+        return
+      }
+
+      // Verify and decode the JWT
+      const payload = await decodeAndVerifyJWT(event.data.jwt)
+
+      // Handle different event types
+      switch (payload.type) {
+        case 'irl:profile:disconnected':
+          setProfile(null)
+          setAvatar(null)
+          setIsIRLBrowser(false)
+          break
+      }
+    } catch (error) {
+      setError(error instanceof Error ? error.message : 'Failed to process IRL Browser message')
     }
   }
 

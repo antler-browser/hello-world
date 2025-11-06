@@ -1,9 +1,19 @@
 {
   "name": "hello-world",
   "private": true,
+  "description": "An example app showing how a local-first auth using Antler works.",
+  "license": "MIT",
+  "keywords": [
+    "antler",
+    "irl-browser",
+    "qr-code",
+    "local-first",
+    "did",
+    "decentralized-identity",
+    "decentralized-identifiers"
+  ],
   "version": "1.0.0",
   "type": "module",
-  "license": "MIT",
   "scripts": {
     "dev": "vite",
     "build": "tsc -b && vite build",
@@ -18,13 +28,13 @@
     "react-dom": "^19.2.0"
   },
   "devDependencies": {
+    "irl-browser-simulator": "^1.0.4",
     "@tailwindcss/vite": "^4.1.16",
     "@types/react": "^19.2.2",
     "@types/react-dom": "^19.2.2",
     "@vitejs/plugin-react": "^5.1.0",
     "@types/node": "^24.6.0",
     "autoprefixer": "^10.4.21",
-    "eruda": "^3.4.3",
     "postcss": "^8.5.6",
     "tailwindcss": "^4.1.16",
     "typescript": "~5.9.3",

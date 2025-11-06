@@ -34,7 +34,7 @@ export async function decodeAndVerifyJWT(jwt: string): Promise<IRLJWTPayload> {
       throw new Error('JWT expired');
     }
 
-    // check audience claim to ensure this JWT is intended for this application (production URL)
+    // check audience claim to ensure this JWT is intended for this application (use in production)
     // if (decoded.aud && decoded.aud !== 'https://yourdomain.com') {
     //   throw new Error(`This JWT is not intended for this application. aud received: ${decoded.aud}`);
     // }

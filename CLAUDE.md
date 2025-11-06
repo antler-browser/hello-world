@@ -4,19 +4,17 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Project Overview
 
-A "Hello World" IRL Browser mini app demonstrating profile access via `window.irlBrowser` API with JWT verification. Built with Preact, TypeScript, and Tailwind CSS. This is meant to run inside an IRL Browser like Antler.
-
-IRL Browser mini apps are web apps that run inside IRL Browsers like Antler, accessing profiles and other data through QR code scanning without requiring auth systems. See `/docs/irl-browser-standard.md` for specification.
+A "Hello World" IRL Browser mini app demonstrating profile access via `window.irlBrowser` API with JWT verification. This mini app is meant to run inside an IRL Browser like Antler. See `/docs/irl-browser-standard.md` for IRL Browser Standard specification.
 
 ## Key Files and Directories
 
-### Application
 - `/src/components/`: Components organized by feature
   - `/QRCodePanel.tsx` - Shows a QR code for app. Hidden on mobile, visible on desktop.
-- `/src/utils/`: Utility functions
-  - `/jwt.ts` - JWT verification using @noble/curves Ed25519
+  - `/Avatar.tsx` - Displays a user's avatar or placeholder if no avatar is set.
+- `/src/lib/`: Library / utility functions for common tasks
+  - `/jwt.ts` - JWT decoding and verification
 - `/src/app.tsx` - Main component with IRL Browser integration and profile display
-- `/src/main.tsx` - Entry point that renders App
+- `/src/main.tsx` - Entry point that renders App (initializes IRL Browser Simulator in dev mode)
 - `/public/`: Public files
   - `irl-manifest.json` - Mini app IRL Browser manifest with metadata and requested permissions
   - `antler-icon.webp` - Mini app icon
@@ -26,15 +24,15 @@ IRL Browser mini apps are web apps that run inside IRL Browsers like Antler, acc
 ## Development Commands
 
 ```bash
-npm install       # Install dependencies
-npm run dev       # Start dev server (localhost:5173)
-npm run build     # TypeScript compile + Vite build
-npm run preview   # Preview production build
+pnpm install       # Install dependencies
+pnpm run dev       # Start dev server (localhost:5173)
+pnpm run build     # TypeScript compile + Vite build
+pnpm run preview   # Preview production build
 ```
 
 ## Architecture Overview
 
-### JWT Verification Pipeline (`/src/utils/jwt.ts`)
+### JWT Verification Pipeline (`/src/lib/jwt.ts`)
 1. Decode JWT with `jwt-decode`
 2. Extract issuer DID from `iss` claim
 3. Reject if JWT is expired (`exp` claim)
@@ -43,7 +41,7 @@ npm run preview   # Preview production build
 6. Verify Ed25519 signature using `@noble/curves`: `ed25519.verify(signature, message, publicKeyBytes)`
 7. Return typed payload
 
-**Key detail**: Uses @noble/curves library for signature verification. (Cannot use other Web Crypto APIs as most mobile browsers don't support Ed25519 yet.)
+**Key detail**: Uses @noble/curves library for signature verification. (Cannot use Web Crypto APIs as most mobile browsers don't support Ed25519 yet.)
 
 ### Responsive Layout
 - **Mobile**: Single column, QR code hidden
@@ -51,32 +49,46 @@ npm run preview   # Preview production build
 
 ## Development Workflow
 
-### Mobile Testing with ngrok
-1. Run `ngrok http 5173`
-2. Add your ngrok URL to `vite.config.ts` allowedHosts (line 9)
-3. Run `npm run dev`
-4. Scan QR code with IRL Browser app
+### Debugging IRL Browser Mini Apps
+The IRL Browser Simulator injects the `window.irlBrowser` API into a regular browser, allowing you to test your mini app locally without needing the Antler mobile app.
 
-### Debugging with Eruda
-- Eruda is a mobile debugging tool that can be used to inspect the DOM, network requests, and console logs.
-- Automatically loads in dev mode (`src/app.tsx` lines 10-16)
-- Tap floating gear icon (bottom-right) to open mobile DevTools
+**Note:** This is a development-only tool and should never be used in production.
+
+```typescript
+if (import.meta.env.DEV) {
+  const simulator = await import('irl-browser-simulator')
+  simulator.enableIrlBrowserSimulator()
+}
+```
+
+That's it! The simulator will:
+- Inject `window.irlBrowser` into your page
+- Load a default test profile (Paul Morphy)
+- Show a floating debug panel
+- Click "Open as X" to open a new tab and simulate multiple users
+- Load a profile from the URL parameter `?irlProfile=<id>`
+
+### Testing on Antler with ngrok (optional)
+Ngrok creates a public URL that is useful for testing your locally running mini app on Antler.
+
+1. Run `ngrok http 5173`
+2. Add your ngrok URL to `vite.config.ts` allowedHosts
+3. Run `pnpm run dev` to start your local server
+4. Scan QR code with Antler app
 
 ## Third Party Libraries
 
-- **preact** - Lightweight React alternative
-- **vite** - Build tool with HMR
+- **React**
+- **Tailwind**
 - **@noble/curves** - Ed25519 signature verification
-- **base58-universal** - DID parsing
+- **base58-universal** - Base58 encoding
 - **jwt-decode** - JWT decoding
 - **qrcode.react** - QR code generation
-- **tailwindcss** - Utility CSS (v4)
-- **eruda** - Mobile debugging (dev only)
+- **irl-browser-simulator** - IRL Browser debugging
 
 ## Troubleshooting
 
 ### JWT Verification Failures
-Check Eruda Console for errors. Common causes:
 - Expired JWT (`exp` claim)
 - Invalid signature
 - Malformed DID (must start with `did:key:z`)
@@ -86,8 +98,5 @@ Check Eruda Console for errors. Common causes:
 Check if API exists: `console.log(window.irlBrowser)`
 
 ### Build Errors
-- Run `npm install`
-- Check TypeScript errors: `npm run build`
-
-### ngrok Issues
-- Add your ngrok URL to `vite.config.ts` allowedHosts (line 9)
+- Run `pnpm install`
+- Check TypeScript errors: `pnpm run build`

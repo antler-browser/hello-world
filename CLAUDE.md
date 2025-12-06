@@ -4,7 +4,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Project Overview
 
-A "Hello World" IRL Browser mini app demonstrating profile access via `window.irlBrowser` API with JWT verification. This mini app is meant to run inside an IRL Browser like Antler. See `/docs/irl-browser-standard.md` for IRL Browser Standard specification.
+A "Hello World" IRL Browser mini app demonstrating profile access via `window.irlBrowser` API with JWT verification. This mini app is meant to run inside an IRL Browser like Antler. See `/docs/irl-browser-specification.md` for IRL Browser Specification specification.
 
 ## Key Files and Directories
 
@@ -19,7 +19,7 @@ A "Hello World" IRL Browser mini app demonstrating profile access via `window.ir
   - `irl-manifest.json` - Mini app IRL Browser manifest with metadata and requested permissions
   - `antler-icon.webp` - Mini app icon
 - `/docs/`: Documentation
-  - `irl-browser-standard.md` - IRL Browser Standard specification
+  - `irl-browser-specification.md` - IRL Browser Specification specification
 
 ## Development Commands
 

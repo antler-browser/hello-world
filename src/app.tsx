@@ -12,7 +12,7 @@ declare global {
       getBrowserDetails(): {
         name: string;
         version: string;
-        platform: 'ios' | 'android';
+        platform: 'ios' | 'android' | 'browser';
         supportedPermissions: string[];
       };
       requestPermission(permission: string): Promise<boolean>;

@@ -4,7 +4,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Project Overview
 
-A "Hello World" IRL Browser mini app demonstrating profile access via `window.irlBrowser` API with JWT verification. This mini app is meant to run inside an IRL Browser like Antler. See `/docs/irl-browser-specification.md` for IRL Browser Specification specification.
+A "Hello World" Local First Auth mini app demonstrating profile access via `window.localFirstAuth` API with JWT verification. This mini app is meant to run inside a Local First Auth app like Antler. See `/docs/local-first-auth-spec.md` for the Local First Auth specification.
 
 ## Key Files and Directories
 
@@ -13,13 +13,13 @@ A "Hello World" IRL Browser mini app demonstrating profile access via `window.ir
   - `/Avatar.tsx` - Displays a user's avatar or placeholder if no avatar is set.
 - `/src/lib/`: Library / utility functions for common tasks
   - `/jwt.ts` - JWT decoding and verification
-- `/src/app.tsx` - Main component with IRL Browser integration and profile display
-- `/src/main.tsx` - Entry point that renders App (initializes IRL Browser Simulator in dev mode)
+- `/src/app.tsx` - Main component with Local First Auth integration and profile display
+- `/src/main.tsx` - Entry point that renders App (initializes Local First Auth Simulator in dev mode)
 - `/public/`: Public files
-  - `irl-manifest.json` - Mini app IRL Browser manifest with metadata and requested permissions
+  - `local-first-auth-manifest.json` - Mini app Local First Auth manifest with metadata and requested permissions
   - `antler-icon.webp` - Mini app icon
 - `/docs/`: Documentation
-  - `irl-browser-specification.md` - IRL Browser Specification specification
+  - `local-first-auth-spec.md` - Local First Auth specification
 
 ## Development Commands
 
@@ -49,24 +49,24 @@ pnpm run preview   # Preview production build
 
 ## Development Workflow
 
-### Debugging IRL Browser Mini Apps
-The IRL Browser Simulator injects the `window.irlBrowser` API into a regular browser, allowing you to test your mini app locally without needing the Antler mobile app.
+### Debugging Local First Auth Mini Apps
+The Local First Auth Simulator injects the `window.localFirstAuth` API into a regular browser, allowing you to test your mini app locally without needing the Antler mobile app.
 
 **Note:** This is a development-only tool and should never be used in production.
 
 ```typescript
 if (import.meta.env.DEV) {
-  const simulator = await import('irl-browser-simulator')
-  simulator.enableIrlBrowserSimulator()
+  const simulator = await import('local-first-auth-simulator')
+  simulator.enableLocalFirstAuthSimulator()
 }
 ```
 
 That's it! The simulator will:
-- Inject `window.irlBrowser` into your page
+- Inject `window.localFirstAuth` into your page
 - Load a default test profile (Paul Morphy)
 - Show a floating debug panel
 - Click "Open as X" to open a new tab and simulate multiple users
-- Load a profile from the URL parameter `?irlProfile=<id>`
+- Load a profile from the URL parameter `?localFirstAuthProfile=<id>`
 
 ### Testing on Antler with ngrok (optional)
 Ngrok creates a public URL that is useful for testing your locally running mini app on Antler.
@@ -84,7 +84,7 @@ Ngrok creates a public URL that is useful for testing your locally running mini 
 - **base58-universal** - Base58 encoding
 - **jwt-decode** - JWT decoding
 - **qrcode.react** - QR code generation
-- **irl-browser-simulator** - IRL Browser debugging
+- **local-first-auth-simulator** - Local First Auth debugging
 
 ## Troubleshooting
 
@@ -95,7 +95,7 @@ Ngrok creates a public URL that is useful for testing your locally running mini 
 - Audience claim mismatch (must match production URL)
 
 ### Profile Not Loading
-Check if API exists: `console.log(window.irlBrowser)`
+Check if API exists: `console.log(window.localFirstAuth)`
 
 ### Build Errors
 - Run `pnpm install`

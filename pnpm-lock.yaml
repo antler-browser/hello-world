@@ -45,9 +45,9 @@ importers:
       autoprefixer:
         specifier: ^10.4.22
         version: 10.4.22(postcss@8.5.6)
-      irl-browser-simulator:
-        specifier: ^1.1.2
-        version: 1.1.2
+      local-first-auth-simulator:
+        specifier: ^1.4.1
+        version: 1.4.1
       postcss:
         specifier: ^8.5.6
         version: 8.5.6
@@ -667,10 +667,6 @@ packages:
   graceful-fs@4.2.11:
     resolution: {integrity: sha512-RbJ5/jmFcNNCcDV5o9eTnBLJ/HszWV0P73bc+Ff4nS/rJj+YaS6IGyiOL0VoBYX+l1Wrl3k63h/KrH+nhJ0XvQ==}
 
-  irl-browser-simulator@1.1.2:
-    resolution: {integrity: sha512-d85hbzyAWlKz/TYkt4TJSmMvm+jALici0upytZj3keauJVsjJMcOfqk3hv4KXTiDUhD3VdyC+h5OgK6KgX4KlQ==}
-    engines: {node: '>=20.0.0'}
-
   jiti@2.6.1:
     resolution: {integrity: sha512-ekilCSN1jwRvIbgeg/57YFh8qQDNbwDb9xT/qu2DAHbFFZUicIl4ygVaAvzveMhMVr3LnpSKTNnwt8PoOfmKhQ==}
     hasBin: true
@@ -761,6 +757,10 @@ packages:
   lightningcss@1.30.2:
     resolution: {integrity: sha512-utfs7Pr5uJyyvDETitgsaqSyjCb2qNRAtuqUeWIAKztsOYdcACf2KtARYXg2pSvhkt+9NfoaNY7fxjl6nuMjIQ==}
     engines: {node: '>= 12.0.0'}
+
+  local-first-auth-simulator@1.4.1:
+    resolution: {integrity: sha512-snqAtrq90RXRil6p1Gej8WtdOFyodcdaG7X8N+PW25DntlPWzkLPVqt+VFsMM2F51vs5f8k/qskJM+qUXbjy6A==}
+    engines: {node: '>=20.0.0'}
 
   lru-cache@5.1.1:
     resolution: {integrity: sha512-KpNARQA3Iwv+jTA0utUVVbrh+Jlrr1Fv0e56GGzAFOXN7dk/FviaDW8LHmK52DlcH4WP2n6gI8vN1aesBFgo9w==}
@@ -1413,12 +1413,6 @@ snapshots:
 
   graceful-fs@4.2.11: {}
 
-  irl-browser-simulator@1.1.2:
-    dependencies:
-      '@stablelib/ed25519': 1.0.3
-      base58-universal: 2.0.0
-      base64-js: 1.5.1
-
   jiti@2.6.1: {}
 
   js-tokens@4.0.0: {}
@@ -1477,6 +1471,12 @@ snapshots:
       lightningcss-linux-x64-musl: 1.30.2
       lightningcss-win32-arm64-msvc: 1.30.2
       lightningcss-win32-x64-msvc: 1.30.2
+
+  local-first-auth-simulator@1.4.1:
+    dependencies:
+      '@stablelib/ed25519': 1.0.3
+      base58-universal: 2.0.0
+      base64-js: 1.5.1
 
   lru-cache@5.1.1:
     dependencies:

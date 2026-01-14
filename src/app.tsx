@@ -3,13 +3,13 @@ import { decodeAndVerifyJWT } from './lib/jwt'
 import { QRCodePanel } from './components/QRCodePanel'
 import { Avatar } from './components/Avatar'
 
-// TypeScript declarations for IRL Browser API
+// TypeScript declarations for Local First Auth API
 declare global {
   interface Window {
-    irlBrowser?: {
+    localFirstAuth?: {
       getProfileDetails(): Promise<string>;
       getAvatar(): Promise<string | null>;
-      getBrowserDetails(): {
+      getAppDetails(): {
         name: string;
         version: string;
         platform: 'ios' | 'android' | 'browser';
@@ -38,12 +38,12 @@ interface AvatarPayload {
 export function App() {
   const [profile, setProfile] = useState<UserProfile | null>(null)
   const [avatar, setAvatar] = useState<string | null>(null)
-  const [isIRLBrowser, setIsIRLBrowser] = useState(false)
+  const [isLocalFirstAuth, setIsLocalFirstAuth] = useState(false)
   const [error, setError] = useState<string | null>(null)
 
   useEffect(() => {
-    // Check if running in an IRL Browser
-    setIsIRLBrowser(!!window.irlBrowser)
+    // Check if running in a Local First Auth app
+    setIsLocalFirstAuth(!!window.localFirstAuth)
 
     // Get profile details immediately
     loadProfile()
@@ -51,7 +51,7 @@ export function App() {
     // Load avatar
     loadAvatar()
 
-    // Add event listener to receive events from IRL Browser
+    // Add event listener to receive events from Local First Auth app
     window.addEventListener('message', handleMessage)
 
     // Cleanup on unmount
@@ -62,12 +62,12 @@ export function App() {
 
   const loadProfile = async () => {
     try {
-      if (!window.irlBrowser) {
-        console.log('IRL Browser not found')
+      if (!window.localFirstAuth) {
+        console.log('Local First Auth not found')
         return
       }
       // Get profile details JWT
-      const jwt = await window.irlBrowser.getProfileDetails()
+      const jwt = await window.localFirstAuth.getProfileDetails()
 
       // Verify and decode JWT
       const payload = await decodeAndVerifyJWT(jwt)
@@ -84,11 +84,11 @@ export function App() {
 
   const loadAvatar = async () => {
     try {
-      if (!window.irlBrowser) {
+      if (!window.localFirstAuth) {
         return
       }
       // Get avatar separately (returns a signed JWT)
-      const avatarJWT = await window.irlBrowser.getAvatar()
+      const avatarJWT = await window.localFirstAuth.getAvatar()
       if (!avatarJWT) { return }
 
       // Decode and verify the avatar JWT
@@ -106,7 +106,7 @@ export function App() {
 
   const handleMessage = async (event: MessageEvent) => {
     try {
-      // Check if this is an IRL Browser message with a JWT
+      // Check if this is a Local First Auth message with a JWT
       if (!event.data?.jwt) {
         return
       }
@@ -116,19 +116,19 @@ export function App() {
 
       // Handle different event types
       switch (payload.type) {
-        case 'irl:profile:disconnected':
+        case 'localFirstAuth:profile:disconnected':
           setProfile(null)
           setAvatar(null)
-          setIsIRLBrowser(false)
+          setIsLocalFirstAuth(false)
           break
       }
     } catch (error) {
-      setError(error instanceof Error ? error.message : 'Failed to process IRL Browser message')
+      setError(error instanceof Error ? error.message : 'Failed to process Local First Auth message')
     }
   }
 
-  // Show fallback message if not in IRL Browser
-  if (!isIRLBrowser) {
+  // Show fallback message if not in Local First Auth app
+  if (!isLocalFirstAuth) {
     return (
       <div className="min-h-screen bg-white">
         <div className="grid md:grid-cols-2 min-h-screen">
@@ -226,7 +226,7 @@ export function App() {
             </h1>
             <Avatar avatar={avatar} name={profile.name} />
             <p className="text-gray-600 text-lg mt-4">
-              Yay! You've successfully setup your profile!<br /><br />Look for other QR codes with antlers for websites that allow instant login!
+              Yay! You've successfully setup your profile!
             </p>
           </div>
         </div>

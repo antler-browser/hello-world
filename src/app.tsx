@@ -177,6 +177,9 @@ export function App() {
                   />
                 </a>
               </div>
+              <footer className="mt-8 text-center text-sm text-gray-500">
+                <p>See the <a href="https://github.com/antler-browser/hello-world" target="_blank" rel="noopener noreferrer" className="text-rose-700 hover:text-rose-800 underline">source code</a> for this app.</p>
+              </footer>
             </div>
           </div>
         </div>
